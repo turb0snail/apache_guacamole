@@ -2,15 +2,15 @@ import ldap3
 import requests
 
 # Your LDAP and Guacamole server details
-LDAP_SERVER = "ad.sentrium.io"
+LDAP_SERVER = "xxx"
 LDAP_PORT = 389
-LDAP_USER = "guacamole"
-LDAP_PASS = "=VR'2~WHs)vG#l@bbr,h"
+LDAP_USER = "xxx"
+LDAP_PASS = "xxx"
 
 # Guacamole server details
-GUACAMOLE_SERVER = "https://guacamole.sentrium.net"
-GUACAMOLE_USER = "sentrium"
-GUACAMOLE_PASS = "pR-zv;FO)~m%fDr2kt]J"
+GUACAMOLE_SERVER = "xxx"
+GUACAMOLE_USER = "xxx"
+GUACAMOLE_PASS = "xxx"
 
 # Connect to LDAP and Guacamole API
 server = ldap3.Server(LDAP_SERVER, port=LDAP_PORT, get_info=ldap3.ALL)
@@ -27,7 +27,7 @@ group_to_connections = {
 }
 
 # Get all users in 'guacamole_users' group
-group_dn = "CN=guacamole_users,OU=groups,OU=sentrium,DC=ad,DC=sentrium,DC=io"
+group_dn = "CN=guacamole_users,OU=groups,OU=xxx,DC=xxx,DC=xxx,DC=xxx"
 if not conn.search(
     search_base=group_dn, search_filter="(objectClass=*)", attributes=["member"]
 ):
