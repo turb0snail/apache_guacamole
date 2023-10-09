@@ -1,0 +1,54 @@
+version: '3'
+services:
+  guacamole:
+    image: guacamole/guacamole:1.5.1
+    depends_on:
+      - guacd
+      - mysql
+    volumes:
+      - ./config:/etc/guacamole/
+    environment:
+      GUACD_HOSTNAME: guacd
+      MYSQL_HOSTNAME: mysql
+      MYSQL_DATABASE: guacamole_db
+      MYSQL_USER: guacamole_user
+      MYSQL_PASSWORD: xxx
+
+      # LDAP properties
+      LDAP_HOSTNAME: xxx
+      LDAP_PORT: 389
+      LDAP_USER_BASE_DN: OU=users,OU=xxx,DC=xxx,DC=xxx,DC=xxx
+      LDAP_GROUP_BASE_DN: OU=groups,OU=xxx,DC=xxx,DC=xxx,DC=xxx
+      LDAP_CONFIG_BASE_DN: OU=groups,OU=xxx,DC=xxx,DC=xxx,DC=xxx
+      LDAP_SEARCH_BIND_DN: CN=guacamole,OU=xxx,OU=xxx,DC=xxx,DC=xxx,DC=xxx
+      LDAP_SEARCH_BIND_PASSWORD: =xxx
+      LDAP_MEMBER_ATTRIBUTE: member
+      LDAP_USER_SEARCH_FILTER: (&(objectClass=user)(|(memberOf=CN=xxx,OU=xxx,OU=xxx,DC=xxx,DC=xxx,DC=xxx)(memberOf=CN=xxx,OU=xxx,OU=xxx,DC=xxx,DC=xxx,DC=xxx)(memberOf=CN=xxx,OU=xxx,OU=xxx,DC=xxx,DC=xxx,DC=xxx)(memberOf=CN=xxx,OU=xxx,OU=xxx,DC=xxx,DC=xxx,DC=xxx)))
+      LDAP_GROUP_SEARCH_FILTER: (&(objectClass=group)(|(cn=xxx)(cn=xxx)(cn=xxx)(cn=xxx)))
+      LDAP_USERNAME_ATTRIBUTE: sAMAccountName
+      LDAP_PERMISSION_FILTER: (memberOf=CN=xxx,OU=xxx,OU=xxx,DC=xxx,DC=xxx,DC=xxx);read-only
+      LDAP_PERMISSION_FILTER: (memberOf=CN=xxx,OU=xxx,OU=xxx,DC=xxx,DC=xxx,DC=xxx);read-only
+      LDAP_DERIVED_USER_GROUPS: "true"
+
+  guacd:
+    image: guacamole/guacd:1.5.1
+
+  mysql:
+    image: mariadb:latest
+    volumes:
+      - ./config/localhost.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: xxx
+      MYSQL_DATABASE: guacamole_db
+      MYSQL_USER: guacamole_user
+      MYSQL_PASSWORD: xxx
+
+  nginx:
+    image: nginx:latest
+    volumes:
+       - ./nginx-conf/guacamole.conf:/etc/nginx/conf.d/guacamole.conf
+       - ./nginx-conf/ssl/guacamole.cer:/etc/ssl/guacamole/guacamole.cer
+       - ./nginx-conf/ssl/guacamole.key:/etc/ssl/guacamole/guacamole.key
+    ports:
+      - "80:80"
+      - "443:443"
