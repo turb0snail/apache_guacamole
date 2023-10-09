@@ -2,24 +2,24 @@
 while true; do
 
     # Your LDAP and Guacamole server details
-    LDAP_SERVER="ad.sentrium.io"
+    LDAP_SERVER="xxx"
     LDAP_PORT=389
-    LDAP_USER="guacamole"
-    LDAP_PASS="=VR'2~WHs)vG#l@bbr,h"
-    GUACAMOLE_SERVER="https://guacamole.sentrium.net"
-    GUACAMOLE_USER="sentrium"
-    GUACAMOLE_PASS="pR-zv;FO)~m%fDr2kt]J"
+    LDAP_USER="xxx"
+    LDAP_PASS="xxx"
+    GUACAMOLE_SERVER="xxx"
+    GUACAMOLE_USER="xxx"
+    GUACAMOLE_PASS="xxx"
 
     # Mappings of groups to connections
     declare -A group_to_connections=(["guacamole_users"]="rdp1 rdp2")
 
     # List of all groups in the Active Directory
-    groups=("guacamole_users" "guacamole_admins" "vyos_support" "vyos_admins")
+    groups=("xxx" "xxx" "xxx" "xxx")
 
     # Loop through each group
     for group in ${groups[@]}
     do
-        group_dn="CN=${group},OU=groups,OU=sentrium,DC=ad,DC=sentrium,DC=io"
+        group_dn="CN=${group},OU=xxx,OU=xxx,DC=xxx,DC=xxx,DC=xxx"
         
         # Check if group exists in Guacamole
         response=$(curl -u ${GUACAMOLE_USER}:${GUACAMOLE_PASS} -s "${GUACAMOLE_SERVER}/api/session/data/mysql/groups/${group}")
